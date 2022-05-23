@@ -17,8 +17,7 @@ namespace MyMusic.Repository
 
             string sql = @"SELECT [Album].[Titolo] AS Titolo_Album, [Bands].[Nome] AS Nome_Band, [Brani].* 
                             FROM [Album], [Bands], [Brani]
-                            JOIN [Bands] as Bnd ON Bnd.[ID]  = [Brani].[Id_Band]
-                            JOIN [Album] AS A ON [Brani].[Id_Album] = A.[ID]";
+                            WHERE [Bands].[ID] = [Brani].[Id_Band] AND [Album].[ID] = [Brani].[Id_Album]";
 
             using var connection = new SqlConnection(ConnectionString);
             connection.Open();
@@ -31,7 +30,7 @@ namespace MyMusic.Repository
 
                     ID = Convert.ToInt32(reader["ID"]),
                     Titolo = reader["Titolo"].ToString(),
-                    Anno_Uscita = Convert.ToInt32(reader["ID"]),
+                    Anno_Uscita = Convert.ToInt32(reader["Anno_Uscita"]),
                     Durata = reader["Durata"].ToString(),
                     Genere = reader["Genere"].ToString(),
                     Nome_Album = reader["Titolo_Album"].ToString(),
@@ -59,17 +58,23 @@ namespace MyMusic.Repository
             command_control.Parameters.AddWithValue("@Nome", brano.Nome_Band);
             var id_band = Convert.ToInt32(command_control.ExecuteScalar());
 
-            if(id_band != null)
+            if(id_band > 1)
             {
 
                 string sql_control2 = @"SELECT [Album].[ID] FROM [Album]
                                  WHERE [Album].[Titolo] = @Titolo";
+                string sql_control3 = @"SELECT [Album].[Id_Band] FROM [Album]
+                                 WHERE [Album].[Titolo] = @Titolo";
 
                 using var command_control2 = new SqlCommand(sql_control2, connection);
                 command_control2.Parameters.AddWithValue("@Titolo", brano.Nome_Album);
-                var id_album = Convert.ToInt32(command_control2.ExecuteScalar());
+                using var command_control3 = new SqlCommand(sql_control3, connection);
+                command_control3.Parameters.AddWithValue("@Titolo", brano.Nome_Album);
 
-                if(id_album != null)
+                var id_album = Convert.ToInt32(command_control2.ExecuteScalar());
+                var id_band_album = Convert.ToInt32(command_control3.ExecuteScalar());
+
+                if(id_album > 1 && id_band_album == id_band)
                 {
 
                     string sql_insert = @"INSERT INTO [Brani]

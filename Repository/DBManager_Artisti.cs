@@ -18,7 +18,7 @@ namespace MyMusic.Repository
             string sql = @"SELECT [Bands].[Nome] AS Nome_Band, [Artisti].[ID] AS Id_Artista, [Artisti].[Nome] AS Nome_Artista,
                            [Artisti].[Cognome], [Artisti].[Nome_Arte]
                            FROM [Bands], [Artisti]
-                            JOIN [Bands] AS B ON B.[ID] = [Artisti].[Id_Band]";
+                            WHERE [Bands].[ID] = [Artisti].[Id_Band]";
 
             using var connection = new SqlConnection(ConnectionString);
             connection.Open();
@@ -95,7 +95,9 @@ namespace MyMusic.Repository
         {
 
             string sql = @"DELETE FROM [Artisti]
-                            WHERE [ID] = @ID";
+                            WHERE [ID] = @ID;
+                            DELETE FROM [Brani]
+                            WHERE [Brani].[ID] = @ID";
 
             using var connection = new SqlConnection(ConnectionString);
             connection.Open();

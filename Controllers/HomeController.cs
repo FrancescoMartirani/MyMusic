@@ -30,24 +30,6 @@ namespace MyMusic.Controllers
         }
 
         [HttpGet]
-        public IActionResult Bands()
-        {
-            return View(dbManager_Bands.getBands());
-        }
-
-        [HttpGet]
-        public IActionResult Artisti()
-        {
-            return View(dbManager_Artisti.getArtisti());
-        }
-
-        [HttpGet]
-        public IActionResult Album()
-        {
-            return View(dbManager_Album.getAlbum());
-        }
-
-        [HttpGet]
         public IActionResult AggiungiBrano()
         {
             return View();
@@ -58,6 +40,20 @@ namespace MyMusic.Controllers
         {
             dbManager_Brani.aggiungiBrano(brano);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult EliminaBrano(int id)
+        {
+            var brano = dbManager_Brani.getBrani().Where(x => x.ID == id).FirstOrDefault();
+            var delete = dbManager_Brani.eliminaBrano(brano);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Artisti()
+        {
+            return View(dbManager_Artisti.getArtisti());
         }
 
         [HttpGet]
@@ -74,6 +70,50 @@ namespace MyMusic.Controllers
         }
 
         [HttpGet]
+        public IActionResult EliminaArtista(int id)
+        {
+            var artista = dbManager_Artisti.getArtisti().Where(x => x.ID == id).FirstOrDefault();
+            var delete = dbManager_Artisti.eliminaArtista(artista);
+            return RedirectToAction("Artisti");
+
+        }
+
+        [HttpGet]
+        public IActionResult Album()
+        {
+            return View(dbManager_Album.getAlbum());
+        }
+
+        [HttpGet]
+        public IActionResult AggiungiAlbum()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AggiungiAlbum(Album album)
+        {
+            dbManager_Album.aggiungiAlbum(album);
+            return RedirectToAction("Album");
+        }
+
+        [HttpGet]
+        public IActionResult EliminaAlbum(int id)
+        {
+            var album = dbManager_Album.getAlbum().Where(x => x.ID == id).FirstOrDefault();
+            var delete = dbManager_Album.eliminaAlbum(album);
+            return RedirectToAction("Album");
+
+        }
+
+        [HttpGet]
+        public IActionResult Bands()
+        {
+            return View(dbManager_Bands.getBands());
+        }
+
+
+        [HttpGet]
         public IActionResult AggiungiBand()
         {
             return View();
@@ -87,11 +127,12 @@ namespace MyMusic.Controllers
         }
 
         [HttpGet]
-        public IActionResult EliminaBrano(int id)
+        public IActionResult EliminaBand(int id)
         {
-            var brano = dbManager_Brani.getBrani().Where(x => x.ID == id).FirstOrDefault();
-            var delete = dbManager_Brani.eliminaBrano(brano);
-            return RedirectToAction("Index");
+            var band = dbManager_Bands.getBands().Where(x => x.ID == id).FirstOrDefault();
+            var delete = dbManager_Bands.eliminaBand(band);
+            return RedirectToAction("Bands");
+
         }
 
         public IActionResult Privacy()

@@ -15,6 +15,7 @@
     <tr>
         <th>@Html.DisplayNameFor(model => model.Titolo)</th>
         <th>@Html.DisplayNameFor(model => model.Anno_Uscita)</th>
+        <th>@Html.DisplayNameFor(model => model.Nome_Band)</th>
     </tr>
     @if (Model != null && Model.Any())
     {
@@ -23,8 +24,9 @@
             <tr>
                 <td>@album.Titolo</td>
                 <td>@album.Anno_Uscita</td>
+                <td>@album.Nome_Band</td>
                 <td>
-                    @Html.ActionLink("Elimina","Delete",new {ID = album.ID})
+                    @Html.ActionLink("Elimina","EliminaAlbum",new {ID = album.ID})
                 </td>
             </tr>
         }

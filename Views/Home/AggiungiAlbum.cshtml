@@ -1,38 +1,60 @@
-﻿@model IEnumerable<Album>
+﻿@model Album
 @{
 
-    ViewBag.Title = "Elenco album";
+    ViewBag.Title = "Aggiungi album";
 
 }
-<h1 class="display-4">Lista album</h1>
-<p>@Html.ActionLink("Aggiungi album","AggiungiAlbum")</p>
-<p>@Html.ActionLink("Brani","Index")</p>
-<p>@Html.ActionLink("Bands","Bands")</p>
-<p>@Html.ActionLink("Album","Album")</p>
-<p>@Html.ActionLink("Artisti","Artisti")</p>
+<h1 class="display-4">Aggiungi album</h1>
 
-<table class="table">
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.Titolo)</th>
-        <th>@Html.DisplayNameFor(model => model.Anno_Uscita)</th>
-    </tr>
-    @if (Model != null && Model.Any())
-    {
-        foreach (var album in Model)
-        {
-            <tr>
-                <td>@album.Titolo</td>
-                <td>@album.Anno_Uscita</td>
-                <td>
-                    @Html.ActionLink("Elimina","Delete",new {ID = album.ID})
-                </td>
-            </tr>
-        }
-    }
-    else
-    {
-        <tr>
-            <td colspan="5" class="text-center"> Nessun album disponibile</td>
-        </tr>
-    }
-</table>
+@if (ViewBag.Message != null)
+{
+
+    <div roll="alert" class="alert alert-success">
+
+        @ViewBag.Message
+
+    </div>
+}
+@using (Html.BeginForm()){
+
+    <div class="form-horizontal">
+
+        <div>Aggiungi un album:</div>
+        <hr>
+        @Html.HiddenFor(model => model.ID)
+        <div class ="form-group">
+            @Html.LabelFor(model => model.Titolo, htmlAttributes: new{@class ="label col-md-2"})
+            <div class="col-md-10">
+
+                @Html.EditorFor(model => model.Titolo)
+            </div>
+        </div>
+        <div class ="form-group">
+            @Html.LabelFor(model => model.Anno_Uscita, htmlAttributes: new{@class ="label col-md-2"})
+            <div class="col-md-10">
+
+                @Html.EditorFor(model => model.Anno_Uscita)
+            </div>
+        </div>
+        <div class ="form-group">
+            @Html.LabelFor(model => model.Nome_Band, htmlAttributes: new{@class ="label col-md-2"})
+            <div class="col-md-10">
+
+                @Html.EditorFor(model => model.Nome_Band)
+            </div>
+        </div>
+        <div class ="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Aggiungi" class="btn btn-btndefault"/>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<div>
+
+    @Html.ActionLink("BackToHome","Index")
+
+</div>

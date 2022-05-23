@@ -15,7 +15,9 @@ namespace MyMusic.Repository
 
             List<Album> listaAlbum = new List<Album>();;
 
-            string sql = @"SELECT * FROM [Album]";
+            string sql = @"SELECT [Bands].[Nome] AS Nome_Band, [Album].* 
+                        FROM [Bands], [Album]
+                        WHERE [Bands].[ID] = [Album].[Id_Band]";
 
             using var connection = new SqlConnection(ConnectionString);
             connection.Open();
@@ -28,7 +30,8 @@ namespace MyMusic.Repository
 
                     ID = Convert.ToInt32(reader["ID"]),
                     Titolo = reader["Titolo"].ToString(),
-                    Anno_Uscita = Convert.ToInt32(reader["ID"]),
+                    Anno_Uscita = Convert.ToInt32(reader["Anno_Uscita"]),
+                    Nome_Band = reader["Nome_Band"].ToString()
 
                 };
 
@@ -40,60 +43,52 @@ namespace MyMusic.Repository
 
         }
 
-        public bool aggiungiBrano(Brano brano){
+        public bool aggiungiAlbum(Album album)
+        {
 
-            string sql = @"INSERT INTO [Bands]
-                        ([Nome])
-                        OUTPUT INSERTED.ID
-                        VALUES (@Nome)";
-
-            string sql2 = @"INSERT INTO [Album]
-                        ([Id_Band],
-                        [Titolo])
-                        OUTPUT INSERTED.ID
-                        VALUES (@Id_Band, 
-                                @Titolo)";
-
-            string sql3 = @"INSERT INTO [Brani]
-                        ([Titolo]
-                            ,[Anno_Uscita] 
-                            ,[Durata]
-                            ,[Genere]
-                            ,[Id_Band]
-                            ,[Id_Album])
-                        VALUES (@Titolo,
-                                @Anno_Uscita,
-                                @Durata,
-                                @Genere,
-                                @Id_Band,
-                                @Id_Album)";
+            string sql_control = @"SELECT [Bands].[ID] FROM [Bands]
+                                   WHERE [Bands].[Nome] = @Nome";
 
             using var connection = new SqlConnection(ConnectionString);
             connection.Open();
 
-            using var command = new SqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@Nome", brano.Nome_Band);
-            var id_band = Convert.ToInt32(command.ExecuteScalar());
+            using var command_control = new SqlCommand(sql_control, connection);
+            command_control.Parameters.AddWithValue("@Nome", album.Nome_Band);
 
+            var id_band = Convert.ToInt32(command_control.ExecuteScalar());
 
-            using var command2 = new SqlCommand(sql2, connection);
-            command2.Parameters.AddWithValue("@Titolo", brano.Nome_Album);
-            command2.Parameters.AddWithValue("@Id_Band", id_band);
-            var id_album = Convert.ToInt32(command2.ExecuteScalar());
+            if (id_band > 0)
+            {
 
-            using var command3 = new SqlCommand(sql3, connection);
-            command3.Parameters.AddWithValue("@Titolo", brano.Titolo);
-            command3.Parameters.AddWithValue("@Anno_Uscita", brano.Anno_Uscita);
-            command3.Parameters.AddWithValue("@Durata", brano.Durata);
-            command3.Parameters.AddWithValue("@Genere", brano.Genere);
-            command3.Parameters.AddWithValue("@Id_Band", id_band);
-            command3.Parameters.AddWithValue("@Id_Album", id_album);
+                string sql_insert = @"INSERT INTO [Album]
+                        ([Titolo],
+                        [Anno_Uscita],
+                        [Id_Band])
+                        VALUES (@Titolo,
+                        @Anno_Uscita,
+                        @Id_Band)";
 
-            return command3.ExecuteNonQuery() > 1;
+                using var command_insert = new SqlCommand(sql_insert, connection);
+
+                command_insert.Parameters.AddWithValue("@Titolo", album.Titolo);
+                command_insert.Parameters.AddWithValue("@Anno_Uscita", album.Anno_Uscita);
+                command_insert.Parameters.AddWithValue("@Id_Band", id_band);
+
+                return command_insert.ExecuteNonQuery() > 1;
+
+            }
+
+            else
+            {
+
+                return false;
+
+            }
+
 
         }
 
-        public bool eliminaBrano(Album album)
+        public bool eliminaAlbum(Album album)
         {
 
             string sql = @"DELETE FROM [Album]

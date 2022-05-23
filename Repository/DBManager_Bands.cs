@@ -63,7 +63,12 @@ namespace MyMusic.Repository
         {
 
             string sql = @"DELETE FROM [Bands]
-                            WHERE [ID] = @ID";
+                            WHERE [ID] = @ID; DELETE FROM [Brani]
+                            WHERE [Brani].[ID] = @ID;
+                            DELETE FROM [Album]
+                            WHERE [Album].[ID] = @ID;
+                            DELETE FROM [Artisti]
+                            WHERE [Artisti].[ID] = @ID;";
 
             using var connection = new SqlConnection(ConnectionString);
             connection.Open();
