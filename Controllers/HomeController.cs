@@ -36,6 +36,14 @@ namespace MyMusic.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var brano = dbManager.getBrani().Where(x => x.ID == id).FirstOrDefault();
+            var delete = dbManager.eliminaBrano(brano);
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();
