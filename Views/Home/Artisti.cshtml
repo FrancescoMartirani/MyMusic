@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Artista>
+@{
+
+    ViewBag.Title = "Elenco artisti";
+
+}
+<h1 class="display-4">Lista artisti</h1>
+<p>@Html.ActionLink("Aggiungi artista","AggiungiArtista")</p>
+<p>@Html.ActionLink("Brani","Index")</p>
+<p>@Html.ActionLink("Bands","Bands")</p>
+<p>@Html.ActionLink("Album","Album")</p>
+<p>@Html.ActionLink("Artisti","Artisti")</p>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Nome)</th>
+        <th>@Html.DisplayNameFor(model => model.Cognome)</th>
+        <th>@Html.DisplayNameFor(model => model.Nome_Arte)</th>
+        <th>@Html.DisplayNameFor(model => model.Nome_Band)</th>
+    </tr>
+    @if (Model != null && Model.Any())
+    {
+        foreach (var artista in Model)
+        {
+            <tr>
+                <td>@artista.Nome</td>
+                <td>@artista.Cognome</td>
+                <td>@artista.Nome_Arte</td>
+                <td>@artista.Nome_Band</td>
+                <td>
+                    @Html.ActionLink("Elimina","Delete",new {ID = artista.ID})
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" class="text-center"> Nessun artista disponibile</td>
+        </tr>
+    }
+</table>

@@ -5,7 +5,11 @@
 
 }
 <h1 class="display-4">Lista brani</h1>
-<p>@Html.ActionLink("Aggiungi brano","Add")</p>
+<p>@Html.ActionLink("Aggiungi brano","AggiungiBrano")</p>
+<p>@Html.ActionLink("Brani","Index")</p>
+<p>@Html.ActionLink("Bands","Bands")</p>
+<p>@Html.ActionLink("Album","Album")</p>
+<p>@Html.ActionLink("Artisti","Artisti")</p>
 
 <table class="table">
     <tr>
@@ -28,7 +32,7 @@
                 <td>@brano.Nome_Album</td>
                 <td>@brano.Nome_Band</td>
                 <td>
-                    @Html.ActionLink("Delete","Delete",new {ID = brano.ID})
+                    @Html.ActionLink("Elimina","EliminaBrano",new {ID = brano.ID})
                 </td>
             </tr>
         }

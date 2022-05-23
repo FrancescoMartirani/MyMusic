@@ -1,0 +1,67 @@
+﻿@model Artista
+@{
+
+    ViewBag.Title = "Aggiungi artista";
+
+}
+<h1 class="display-4">Aggiungi artista</h1>
+
+@if (ViewBag.Message != null)
+{
+
+    <div roll="alert" class="alert alert-success">
+
+        @ViewBag.Message
+
+    </div>
+}
+@using (Html.BeginForm()){
+
+    <div class="form-horizontal">
+
+        <div>Aggiungi un artista:</div>
+        <hr>
+        @Html.HiddenFor(model => model.ID)
+        <div class ="form-group">
+            @Html.LabelFor(model => model.Nome, htmlAttributes: new{@class ="label col-md-2"})
+            <div class="col-md-10">
+
+                @Html.EditorFor(model => model.Nome)
+            </div>
+        </div>
+        <div class ="form-group">
+            @Html.LabelFor(model => model.Cognome, htmlAttributes: new{@class ="label col-md-2"})
+            <div class="col-md-10">
+
+                @Html.EditorFor(model => model.Cognome)
+            </div>
+        </div>
+        <div class ="form-group">
+            @Html.LabelFor(model => model.Nome_Arte, htmlAttributes: new{@class ="label col-md-2"})
+            <div class="col-md-10">
+
+                @Html.EditorFor(model => model.Nome_Arte)
+            </div>
+        </div>
+        <div class ="form-group">
+            @Html.LabelFor(model => model.Nome_Band, htmlAttributes: new{@class ="label col-md-2"})
+            <div class="col-md-10">
+
+                @Html.EditorFor(model => model.Nome_Band)
+            </div>
+        </div>
+        <div class ="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Aggiungi" class="btn btn-btndefault"/>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<div>
+
+    @Html.ActionLink("BackToHome","Index")
+
+</div>

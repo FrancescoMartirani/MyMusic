@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Band>
+@{
+
+    ViewBag.Title = "Elenco bands";
+
+}
+<h1 class="display-4">Lista bands</h1>
+<p>@Html.ActionLink("Aggiungi band","AggiungiBand")</p>
+<p>@Html.ActionLink("Brani","Index")</p>
+<p>@Html.ActionLink("Bands","Bands")</p>
+<p>@Html.ActionLink("Album","Album")</p>
+<p>@Html.ActionLink("Artisti","Artisti")</p>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Nome)</th>
+        <th>@Html.DisplayNameFor(model => model.Immagine)</th>
+    </tr>
+    @if (Model != null && Model.Any())
+    {
+        foreach (var band in Model)
+        {
+            <tr>
+                <td>@band.Nome</td>
+                <td><img width="200" src='@band.Immagine'></td>
+                <td>
+                    @Html.ActionLink("Elimina","Delete",new {ID = band.ID})
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" class="text-center"> Nessuna band disponibile</td>
+        </tr>
+    }
+</table>

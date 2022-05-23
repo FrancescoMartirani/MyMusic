@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Album>
+@{
+
+    ViewBag.Title = "Elenco album";
+
+}
+<h1 class="display-4">Lista album</h1>
+<p>@Html.ActionLink("Aggiungi album","AggiungiAlbum")</p>
+<p>@Html.ActionLink("Brani","Index")</p>
+<p>@Html.ActionLink("Bands","Bands")</p>
+<p>@Html.ActionLink("Album","Album")</p>
+<p>@Html.ActionLink("Artisti","Artisti")</p>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Titolo)</th>
+        <th>@Html.DisplayNameFor(model => model.Anno_Uscita)</th>
+    </tr>
+    @if (Model != null && Model.Any())
+    {
+        foreach (var album in Model)
+        {
+            <tr>
+                <td>@album.Titolo</td>
+                <td>@album.Anno_Uscita</td>
+                <td>
+                    @Html.ActionLink("Elimina","Delete",new {ID = album.ID})
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" class="text-center"> Nessun album disponibile</td>
+        </tr>
+    }
+</table>

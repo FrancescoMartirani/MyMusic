@@ -9,38 +9,88 @@ namespace MyMusic.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private DBManager dbManager;
+        private DBManager_Brani dbManager_Brani;
+        private DBManager_Artisti dbManager_Artisti;
+        private DBManager_Album dbManager_Album;
+        private DBManager_Bands dbManager_Bands;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            dbManager = new DBManager();
+            dbManager_Brani = new DBManager_Brani();
+            dbManager_Artisti = new DBManager_Artisti();
+            dbManager_Album = new DBManager_Album();
+            dbManager_Bands = new DBManager_Bands();
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View(dbManager.getBrani());
+            return View(dbManager_Brani.getBrani());
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult Bands()
+        {
+            return View(dbManager_Bands.getBands());
+        }
+
+        [HttpGet]
+        public IActionResult Artisti()
+        {
+            return View(dbManager_Artisti.getArtisti());
+        }
+
+        [HttpGet]
+        public IActionResult Album()
+        {
+            return View(dbManager_Album.getAlbum());
+        }
+
+        [HttpGet]
+        public IActionResult AggiungiBrano()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Add(Brano brano)
+        public IActionResult AggiungiBrano(Brano brano)
         {
-            dbManager.aggiungiBrano(brano);
+            dbManager_Brani.aggiungiBrano(brano);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public IActionResult AggiungiArtista()
         {
-            var brano = dbManager.getBrani().Where(x => x.ID == id).FirstOrDefault();
-            var delete = dbManager.eliminaBrano(brano);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AggiungiArtista(Artista artista)
+        {
+            dbManager_Artisti.aggiungiArtista(artista);
+            return RedirectToAction("Artisti");
+        }
+
+        [HttpGet]
+        public IActionResult AggiungiBand()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AggiungiBand(Band band)
+        {
+            dbManager_Bands.aggiungiBand(band);
+            return RedirectToAction("Bands");
+        }
+
+        [HttpGet]
+        public IActionResult EliminaBrano(int id)
+        {
+            var brano = dbManager_Brani.getBrani().Where(x => x.ID == id).FirstOrDefault();
+            var delete = dbManager_Brani.eliminaBrano(brano);
             return RedirectToAction("Index");
         }
 
