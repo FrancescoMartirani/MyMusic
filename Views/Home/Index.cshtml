@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Brano>
+@{
+
+    ViewBag.Title = "Elenco brani";
+
+}
+<h1 class="display-4">Lista Brani</h1>
+<p>@Html.ActionLink("Aggiungi brano","Add")</p>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Titolo)</th>
+        <th>@Html.DisplayNameFor(model => model.Anno_Uscita)</th>
+        <th>@Html.DisplayNameFor(model => model.Durata)</th>
+        <th>@Html.DisplayNameFor(model => model.Genere)</th>
+        <th>@Html.DisplayNameFor(model => model.Nome_Album)</th>
+        <th>@Html.DisplayNameFor(model => model.Nome_Band)</th>
+    </tr>
+    @if (Model != null && Model.Any())
+    {
+        foreach (var brano in Model)
+        {
+            <tr>
+                <td>@brano.Titolo</td>
+                <td>@brano.Anno_Uscita</td>
+                <td>@brano.Durata</td>
+                <td>@brano.Genere</td>
+                <td>@brano.Nome_Album</td>
+                <td>@brano.Nome_Band</td>
+                <td>
+                    @Html.ActionLink("Delete","Delete",new {ID = brano.ID})
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" class="text-center"> Nessun brano disponibile</td>
+        </tr>
+    }
+</table>
