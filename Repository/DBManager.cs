@@ -100,5 +100,22 @@ namespace MyMusic.Repository
 
         }
 
+        public bool eliminaBrano(Brano brano)
+        {
+
+            string sql = @"DELETE FROM [Brani]
+                            WHERE [ID] = @ID";
+
+            using var connection = new SqlConnection(ConnectionString);
+            connection.Open();
+            using var command = new SqlCommand(sql, connection);
+
+            command.Parameters.AddWithValue("@ID", brano.ID);
+
+
+            return command.ExecuteNonQuery() > 1;
+
+        }
+
     }
 }
