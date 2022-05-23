@@ -17,9 +17,23 @@ namespace MyMusic.Controllers
             dbManager = new DBManager();
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View(dbManager.getBrani());
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(Brano brano)
+        {
+            dbManager.aggiungiBrano(brano);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()
